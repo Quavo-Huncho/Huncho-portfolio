@@ -1,26 +1,130 @@
+
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
-  --background: #ffffff;
+  --background: #fafafa;
   --foreground: #171717;
+  --surface: #ffffff;
+  --surface-secondary: #f3f4f6;
+  --muted: #71717a;
+  --border: #e5e7eb;
+  --accent: #2563eb;
+  --accent-soft: #eff6ff;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+.dark {
+  --background: #09090b;
+  --foreground: #f4f4f5;
+  --surface: #111114;
+  --surface-secondary: #18181b;
+  --muted: #a1a1aa;
+  --border: #27272a;
+  --accent: #60a5fa;
+  --accent-soft: #172554;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+  overflow-x: hidden;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+}
+
+::selection {
+  background: #2563eb;
+  color: white;
+}
+
+.container-width {
+  width: min(100% - 40px, 1200px);
+  margin-inline: auto;
+}
+
+.section-padding {
+  padding-block: 100px;
+}
+
+.gradient-text {
+  background: linear-gradient(120deg, #2563eb, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.grid-pattern {
+  background-image:
+    linear-gradient(
+      to right,
+      var(--border) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      var(--border) 1px,
+      transparent 1px
+    );
+  background-size: 45px 45px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.glass {
+  background: color-mix(
+    in srgb,
+    var(--surface) 80%,
+    transparent
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border);
+}
+
+::placeholder {
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding-block: 70px;
+  }
+
+  .container-width {
+    width: min(100% - 32px, 1200px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

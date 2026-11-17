@@ -1,0 +1,22 @@
+{
+  "project_type": "Next.js 16 App Router, single-page portfolio, vanilla JavaScript (no TypeScript)",
+  "language": "JavaScript (.js / .jsx) — zero TypeScript allowed",
+  "build_system": "Next.js 16.4.5 with Turbopack. next.config.mjs sets turbopack.rules for *.css using @tailwindcss/turbopack loader. DO NOT change next.config.mjs. Run dev with `npm run dev`, build with `npm run build`.",
+  "test_framework": "None. Verification is: `npm run build` produces exit 0 and no type/lint errors. Visual verification via `npm run dev` in browser.",
+  "build_command": "npm run build",
+  "test_command": "npm run build",
+  "verification_instructions": "1. Run `npm run build` from c:\\Users\\hp\\Desktop\\my-portfolio — must exit 0 with no errors. 2. Run `npm run dev` and open http://localhost:3000 — all nine sections render, Framer Motion animations fire on scroll, mobile hamburger menu works, contact form submits without JS errors in console.",
+  "snapshot_or_generated_files": null,
+  "environment_constraints": "Windows PowerShell. Node path aliases: @/* -> ./* (jsconfig.json). Tailwind v4 uses @import 'tailwindcss' NOT @tailwind base/components/utilities. No tailwind.config.js exists or should be created. @theme inline {...} is already in globals.css and is the correct approach for custom tokens. Framer Motion v14.10.1 — no breaking changes from v11+, standard API (motion, AnimatePresence, useInView, useScroll, useTransform, useAnimation, useSpring all available). lucide-react v1.70.0 — import icons as named exports e.g. `import { Menu, X, Github } from 'lucide-react'`. react-icons v5.7.0 — import from subpaths e.g. `import { SiReact } from 'react-icons/si'`.",
+  "contribution_requirements": "AGENTS.md warns this is Next.js 16 with potentially different APIs. Key rule: read node_modules/next/dist/docs/ before writing any Next.js-specific code. 'use client' is required at the top of any file using useState, useEffect, event handlers, or Framer Motion hooks. app/layout.js is a Server Component — do not add 'use client' to it. app/page.js can remain a Server Component since it just composes Client Components as imports. All interactive components must declare 'use client' at file top.",
+  "key_patterns": "Tailwind v4: define custom tokens inside @theme inline { --color-*: ...; } block in globals.css; utility classes like bg-primary, text-accent auto-generate from --color-primary / --color-accent. No tailwind.config.js. Framer Motion: all components using motion.* or hooks must be 'use client'. Import pattern: `import { motion, AnimatePresence, useInView } from 'framer-motion'`. For scroll-triggered animations use `useInView` with `{ once: true, margin: '-100px' }`. Navbar scroll detection: use `useScroll` from framer-motion or plain `addEventListener('scroll')` inside useEffect. Next.js Image: `import Image from 'next/image'`, requires width/height or fill prop. Path alias: `import X from '@/components/X'` resolves to ./components/X.jsx.",
+  "relevant_files": [
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\app\\globals.css",
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\app\\layout.js",
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\app\\page.js",
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\next.config.mjs",
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\jsconfig.json",
+    "c:\\Users\\hp\\Desktop\\my-portfolio\\package.json"
+  ],
+  "directory_structure": "Root: next.config.mjs, package.json, jsconfig.json, AGENTS.md. app/: globals.css, layout.js, page.js, favicon.ico. public/: file.svg, globe.svg, next.svg, vercel.svg, window.svg. node_modules/: framer-motion@14.10.1, lucide-react@1.70.0, react-icons@5.7.0, next@16.4.5, tailwindcss@4. To create: components/ (Navbar.jsx, Hero.jsx, About.jsx, Skills.jsx, Projects.jsx, Services.jsx, Experience.jsx, Contact.jsx, Footer.jsx), components/ui/ (SectionWrapper.jsx, AnimatedText.jsx, GradientButton.jsx), lib/data.js."
+}

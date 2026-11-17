@@ -1,0 +1,7 @@
+{
+  "task_id": "task-portfolio-build",
+  "task_description": "Build a premium, modern, visually impressive personal developer portfolio website inspired by medsolux.com. Uses Next.js 16 App Router (JS only), Tailwind CSS v4, Framer Motion v14, Lucide React, and react-icons. Nine sections: Navbar, Hero, About, Skills, Projects, Services, Experience, Contact, Footer.",
+  "status": "pending",
+  "feature_order": ["FEAT-001", "FEAT-002", "FEAT-003"],
+  "blocked_reason": null
+}
