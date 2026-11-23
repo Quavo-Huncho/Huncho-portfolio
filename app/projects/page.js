@@ -1,4 +1,4 @@
-
+import Link from "next/link";
 import {
   ArrowUpRight,
   ExternalLink,
@@ -6,12 +6,11 @@ import {
   Coins,
   Search,
   Zap,
-  Code2,
   Globe,
   Layers3,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
-
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const projects = [
   {
@@ -27,12 +26,7 @@ const projects = [
       "Enquiry management",
       "Supabase integration",
     ],
-    technologies: [
-      "Next.js",
-      "JavaScript",
-      "Tailwind CSS",
-      "Supabase",
-    ],
+    technologies: ["Next.js", "JavaScript", "Tailwind CSS", "Supabase"],
     icon: BriefcaseBusiness,
     visual: "electrical",
     liveUrl: "https://huncho-electrical.vercel.app/",
@@ -95,18 +89,17 @@ const projects = [
       "Infinite scrolling",
       "PokéAPI integration",
     ],
-    technologies: [
-      "Next.js",
-      "TypeScript",
-      "Tailwind CSS",
-      "PokéAPI",
-    ],
+    technologies: ["Next.js", "TypeScript", "Tailwind CSS", "PokéAPI"],
     icon: Search,
     visual: "pokedex",
     liveUrl: "https://pokedex-lite-azure.vercel.app/",
     githubUrl: "https://github.com/Quavo-Huncho/Pokedex-Lite",
   },
 ];
+
+// Shared by every mockup so they all lift slightly when the card is hovered
+const mockup =
+  "relative w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl transition duration-500 group-hover:-translate-y-1.5 group-hover:scale-[1.02]";
 
 function ProjectVisual({ project }) {
   const Icon = project.icon;
@@ -116,7 +109,7 @@ function ProjectVisual({ project }) {
       <div className="absolute inset-0 grid-pattern opacity-40" />
 
       {project.visual === "electrical" && (
-        <div className="relative w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl">
+        <div className={mockup}>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-blue-600">HUNCHO</p>
@@ -129,10 +122,8 @@ function ProjectVisual({ project }) {
 
           <div className="mt-5 rounded-xl bg-gradient-to-br from-blue-700 to-indigo-900 p-5 text-white">
             <p className="text-xs text-blue-100">Professional Services</p>
-            <p className="mt-2 text-xl font-black">
-              Powering Your World.
-            </p>
-            <div className="mt-4 h-1.5 w-20 rounded-full bg-blue-300" />
+            <p className="mt-2 text-xl font-black">Powering Your World.</p>
+            <div className="mt-4 h-1.5 w-20 rounded-full bg-blue-300 transition-all duration-500 group-hover:w-32" />
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-2">
@@ -150,7 +141,7 @@ function ProjectVisual({ project }) {
       )}
 
       {project.visual === "fx" && (
-        <div className="relative w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl">
+        <div className={mockup}>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-blue-600">FX CHECKER</p>
@@ -184,7 +175,7 @@ function ProjectVisual({ project }) {
       )}
 
       {project.visual === "kante" && (
-        <div className="relative w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl">
+        <div className={mockup}>
           <div className="flex items-center gap-3">
             <div className="rounded-xl bg-amber-500/10 p-3 text-amber-500">
               <Coins size={24} />
@@ -197,9 +188,7 @@ function ProjectVisual({ project }) {
 
           <div className="mt-5 rounded-xl bg-gradient-to-br from-zinc-900 to-slate-800 p-5 text-white">
             <p className="text-xs text-zinc-300">Explore the crypto market</p>
-            <p className="mt-2 text-xl font-black">
-              Exchange. Explore. Trade.
-            </p>
+            <p className="mt-2 text-xl font-black">Exchange. Explore. Trade.</p>
             <div className="mt-4 flex gap-2">
               <span className="rounded-full bg-amber-500 px-3 py-1 text-[10px] font-bold text-black">
                 Markets
@@ -225,7 +214,7 @@ function ProjectVisual({ project }) {
       )}
 
       {project.visual === "pokedex" && (
-        <div className="relative w-full max-w-sm rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 shadow-2xl">
+        <div className={mockup}>
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-red-500">POKÉDEX LITE</p>
@@ -236,9 +225,7 @@ function ProjectVisual({ project }) {
 
           <div className="mt-5 flex items-center gap-2 rounded-lg border border-[var(--border)] px-3 py-3">
             <Search size={15} className="text-[var(--muted)]" />
-            <span className="text-xs text-[var(--muted)]">
-              Search Pokémon...
-            </span>
+            <span className="text-xs text-[var(--muted)]">Search Pokémon...</span>
           </div>
 
           <div className="mt-4 grid grid-cols-3 gap-3">
@@ -268,7 +255,7 @@ function ProjectVisual({ project }) {
 
 function ProjectCard({ project }) {
   return (
-    <article className="group overflow-hidden rounded-[1.6rem] border border-[var(--border)] bg-[var(--surface)] transition duration-300 hover:-translate-y-2 hover:border-blue-500/40 hover:shadow-2xl">
+    <article className="group h-full overflow-hidden rounded-[1.6rem] border border-[var(--border)] bg-[var(--surface)] transition duration-300 hover:-translate-y-2 hover:border-blue-500/40 hover:shadow-2xl">
       <ProjectVisual project={project} />
 
       <div className="p-6 sm:p-7">
@@ -333,7 +320,7 @@ function ProjectCard({ project }) {
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-xs font-bold text-white transition hover:bg-blue-700"
+              className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-3 text-xs font-bold text-white transition hover:-translate-y-1 hover:bg-blue-700"
             >
               Live Preview
               <ExternalLink size={15} />
@@ -345,7 +332,7 @@ function ProjectCard({ project }) {
               href={project.githubUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-xs font-bold transition hover:border-blue-500 hover:text-blue-600"
+              className="inline-flex items-center gap-2 rounded-full border border-[var(--border)] px-5 py-3 text-xs font-bold transition hover:-translate-y-1 hover:border-blue-500 hover:text-blue-600"
             >
               <FaGithub size={17} />
               Source Code
@@ -358,6 +345,10 @@ function ProjectCard({ project }) {
   );
 }
 
+export const metadata = {
+  title: "Projects",
+};
+
 export default function ProjectsPage() {
   return (
     <div className="overflow-hidden">
@@ -366,24 +357,30 @@ export default function ProjectsPage() {
         <div className="absolute inset-0 grid-pattern opacity-40" />
 
         <div className="container-width relative py-24 md:py-32">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              <span className="h-2 w-2 rounded-full bg-blue-500" />
-              Selected Projects
-            </span>
+          <Stagger className="max-w-3xl" gap={0.12}>
+            <StaggerItem>
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                <span className="h-2 w-2 rounded-full bg-blue-500" />
+                Selected Projects
+              </span>
+            </StaggerItem>
 
-            <h1 className="mt-7 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
-              Ideas transformed into{" "}
-              <span className="gradient-text">real products.</span>
-            </h1>
+            <StaggerItem>
+              <h1 className="mt-7 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
+                Ideas transformed into{" "}
+                <span className="gradient-text">real products.</span>
+              </h1>
+            </StaggerItem>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] md:text-lg">
-              Here's a collection of applications and websites I've
-              worked on. Each project represents an opportunity to
-              learn, solve problems and create useful digital experiences.
-            </p>
+            <StaggerItem>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] md:text-lg">
+                Here&apos;s a collection of applications and websites I&apos;ve
+                worked on. Each project represents an opportunity to learn,
+                solve problems and create useful digital experiences.
+              </p>
+            </StaggerItem>
 
-            <div className="mt-9 flex flex-wrap gap-3">
+            <StaggerItem className="mt-9 flex flex-wrap gap-3">
               <div className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3">
                 <p className="text-2xl font-black">04</p>
                 <p className="mt-1 text-xs text-[var(--muted)]">
@@ -404,15 +401,15 @@ export default function ProjectsPage() {
                   Project at a time
                 </p>
               </div>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
       {/* Projects */}
       <section className="section-padding">
         <div className="container-width">
-          <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <Reveal className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <span className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
                 My Portfolio
@@ -426,44 +423,48 @@ export default function ProjectsPage() {
               Explore the projects, the problems they address and the
               technologies behind each experience.
             </p>
-          </div>
+          </Reveal>
 
-          <div className="grid gap-8 lg:grid-cols-2">
+          <Stagger className="grid gap-8 lg:grid-cols-2" gap={0.12}>
             {projects.map((project) => (
-              <ProjectCard key={project.number} project={project} />
+              <StaggerItem key={project.number} className="h-full">
+                <ProjectCard project={project} />
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
       {/* Bottom CTA */}
       <section className="section-padding border-t border-[var(--border)] bg-[var(--surface-secondary)]">
         <div className="container-width">
-          <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-700 to-indigo-900 px-7 py-14 text-center text-white md:px-14 md:py-20">
-            <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
-            <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full border border-white/10" />
+          <Reveal y={32}>
+            <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-br from-blue-700 to-indigo-900 px-7 py-14 text-center text-white md:px-14 md:py-20">
+              <div className="absolute -right-20 -top-20 h-64 w-64 rounded-full border border-white/10" />
+              <div className="absolute -bottom-32 -left-20 h-80 w-80 rounded-full border border-white/10" />
 
-            <div className="relative mx-auto max-w-2xl">
-              <Layers3 size={34} className="mx-auto text-blue-200" />
+              <div className="relative mx-auto max-w-2xl">
+                <Layers3 size={34} className="mx-auto text-blue-200" />
 
-              <h2 className="mt-6 text-3xl font-black tracking-tight md:text-5xl">
-                Let's build something meaningful.
-              </h2>
+                <h2 className="mt-6 text-3xl font-black tracking-tight md:text-5xl">
+                  Let&apos;s build something meaningful.
+                </h2>
 
-              <p className="mt-5 leading-8 text-blue-100">
-                Have a project, an idea or an opportunity in mind?
-                I'd love to hear about it.
-              </p>
+                <p className="mt-5 leading-8 text-blue-100">
+                  Have a project, an idea or an opportunity in mind?
+                  I&apos;d love to hear about it.
+                </p>
 
-              <a
-                href="/contact"
-                className="mt-9 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-bold text-blue-700 transition hover:bg-blue-50"
-              >
-                Start a Conversation
-                <ArrowUpRight size={18} />
-              </a>
+                <Link
+                  href="/contact"
+                  className="mt-9 inline-flex items-center gap-2 rounded-full bg-white px-7 py-4 text-sm font-bold text-blue-700 transition hover:-translate-y-1 hover:bg-blue-50"
+                >
+                  Start a Conversation
+                  <ArrowUpRight size={18} />
+                </Link>
+              </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>

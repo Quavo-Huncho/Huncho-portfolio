@@ -1,8 +1,8 @@
-
 "use client";
 
 import { useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   ArrowRight,
   ArrowUpRight,
@@ -17,6 +17,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import { Reveal, Stagger, StaggerItem } from "@/components/motion/Reveal";
 
 const CONTACT_EMAIL = "johnpaulchibueze1@gmail.com";
 
@@ -37,6 +38,9 @@ const contactOptions = [
   },
 ];
 
+const inputClass =
+  "w-full rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] px-4 py-3.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20";
+
 export default function ContactPage() {
   const [formData, setFormData] = useState({
     name: "",
@@ -44,6 +48,9 @@ export default function ContactPage() {
     subject: "",
     message: "",
   });
+
+  // Honeypot: real visitors never see or fill this. Bots often do.
+  const [website, setWebsite] = useState("");
 
   const [notice, setNotice] = useState("");
   const [noticeType, setNoticeType] = useState("");
@@ -78,7 +85,7 @@ export default function ContactPage() {
         },
         body: JSON.stringify({
           ...formData,
-          website: "",
+          website,
         }),
       });
 
@@ -106,8 +113,7 @@ export default function ContactPage() {
       console.error("Contact form submission error:", error);
 
       setNotice(
-        error.message ||
-          "Something went wrong. Please try again later."
+        error.message || "Something went wrong. Please try again later."
       );
 
       setNoticeType("error");
@@ -123,23 +129,29 @@ export default function ContactPage() {
         <div className="absolute inset-0 grid-pattern opacity-40" />
 
         <div className="container-width relative py-24 md:py-32">
-          <div className="max-w-3xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
-              <span className="h-2 w-2 rounded-full bg-blue-500" />
-              Let's Connect
-            </span>
+          <Stagger className="max-w-3xl" gap={0.12}>
+            <StaggerItem>
+              <span className="inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/10 px-4 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
+                <span className="h-2 w-2 rounded-full bg-blue-500" />
+                Let&apos;s Connect
+              </span>
+            </StaggerItem>
 
-            <h1 className="mt-7 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
-              Let's start a{" "}
-              <span className="gradient-text">conversation.</span>
-            </h1>
+            <StaggerItem>
+              <h1 className="mt-7 text-4xl font-black tracking-tight sm:text-5xl md:text-6xl">
+                Let&apos;s start a{" "}
+                <span className="gradient-text">conversation.</span>
+              </h1>
+            </StaggerItem>
 
-            <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] md:text-lg">
-              Have a project idea, a collaboration opportunity or just
-              want to say hello? I'd be happy to hear from you. Let's
-              discuss how we can create something meaningful together.
-            </p>
-          </div>
+            <StaggerItem>
+              <p className="mt-6 max-w-2xl text-base leading-8 text-[var(--muted)] md:text-lg">
+                Have a project idea, a collaboration opportunity or just want
+                to say hello? I&apos;d be happy to hear from you. Let&apos;s
+                discuss how we can create something meaningful together.
+              </p>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
@@ -148,292 +160,296 @@ export default function ContactPage() {
         <div className="container-width grid items-start gap-12 lg:grid-cols-[0.85fr_1.15fr]">
           {/* Contact Information */}
           <div>
-            <span className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
-              Get In Touch
-            </span>
+            <Reveal>
+              <span className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-400">
+                Get In Touch
+              </span>
 
-            <h2 className="mt-4 text-3xl font-black tracking-tight md:text-4xl">
-              I'd love to hear from you.
-            </h2>
+              <h2 className="mt-4 text-3xl font-black tracking-tight md:text-4xl">
+                I&apos;d love to hear from you.
+              </h2>
 
-            <p className="mt-5 leading-8 text-[var(--muted)]">
-              Whether you're looking for a developer for your next
-              project, have a business idea or want to explore a
-              professional opportunity, feel free to reach out.
-            </p>
+              <p className="mt-5 leading-8 text-[var(--muted)]">
+                Whether you&apos;re looking for a developer for your next
+                project, have a business idea or want to explore a
+                professional opportunity, feel free to reach out.
+              </p>
+            </Reveal>
 
-            <div className="mt-9 space-y-4">
+            <Stagger className="mt-9 space-y-4" gap={0.1} delay={0.1}>
               {contactOptions.map((option) => (
-                <a
-                  key={option.href}
-                  href={option.href}
-                  target={
-                    option.title === "GitHub" ? "_blank" : undefined
-                  }
-                  rel={
-                    option.title === "GitHub"
-                      ? "noopener noreferrer"
-                      : undefined
-                  }
-                  className="group flex items-start gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition hover:-translate-y-1 hover:border-blue-500/50 hover:shadow-lg"
-                >
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                    {option.icon}
-                  </div>
+                <StaggerItem key={option.href}>
+                  <a
+                    href={option.href}
+                    target={option.title === "GitHub" ? "_blank" : undefined}
+                    rel={
+                      option.title === "GitHub"
+                        ? "noopener noreferrer"
+                        : undefined
+                    }
+                    className="group flex items-start gap-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-5 transition duration-300 hover:-translate-y-1 hover:border-blue-500/50 hover:shadow-lg"
+                  >
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 transition group-hover:bg-blue-600 group-hover:text-white dark:text-blue-400 dark:group-hover:text-white">
+                      {option.icon}
+                    </div>
 
-                  <div className="min-w-0 flex-1">
-                    <h3 className="font-bold">{option.title}</h3>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="font-bold">{option.title}</h3>
 
-                    <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
-                      {option.description}
-                    </p>
+                      <p className="mt-1 text-sm leading-6 text-[var(--muted)]">
+                        {option.description}
+                      </p>
 
-                    <p className="mt-2 break-all text-sm font-semibold text-blue-600 dark:text-blue-400">
-                      {option.value}
-                    </p>
-                  </div>
+                      <p className="mt-2 break-all text-sm font-semibold text-blue-600 dark:text-blue-400">
+                        {option.value}
+                      </p>
+                    </div>
 
-                  <ArrowUpRight
-                    size={18}
-                    className="shrink-0 text-[var(--muted)] transition group-hover:text-blue-600"
-                  />
-                </a>
+                    <ArrowUpRight
+                      size={18}
+                      className="shrink-0 text-[var(--muted)] transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-600"
+                    />
+                  </a>
+                </StaggerItem>
               ))}
-            </div>
+            </Stagger>
 
             {/* Additional Information */}
-            <div className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)] p-6">
-              <div className="flex items-center gap-3">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                  <BriefcaseBusiness size={20} />
+            <Reveal delay={0.2} className="mt-8">
+              <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)] p-6">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                    <BriefcaseBusiness size={20} />
+                  </div>
+
+                  <h3 className="font-bold">Open to Opportunities</h3>
                 </div>
 
-                <h3 className="font-bold">Open to Opportunities</h3>
+                <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
+                  I&apos;m interested in meaningful projects, collaborations,
+                  internships and professional opportunities where I can
+                  contribute, learn and grow.
+                </p>
               </div>
 
-              <p className="mt-3 text-sm leading-7 text-[var(--muted)]">
-                I'm interested in meaningful projects, collaborations,
-                internships and professional opportunities where I can
-                contribute, learn and grow.
-              </p>
-            </div>
+              <div className="mt-6 flex items-center gap-3 text-sm text-[var(--muted)]">
+                <MapPin size={18} className="text-blue-600" />
+                Based in Nigeria
+              </div>
 
-            <div className="mt-6 flex items-center gap-3 text-sm text-[var(--muted)]">
-              <MapPin size={18} className="text-blue-600" />
-              Based in Nigeria
-            </div>
-
-            <div className="mt-3 flex items-center gap-3 text-sm text-[var(--muted)]">
-              <Clock3 size={18} className="text-blue-600" />
-              Available for conversations and enquiries
-            </div>
+              <div className="mt-3 flex items-center gap-3 text-sm text-[var(--muted)]">
+                <Clock3 size={18} className="text-blue-600" />
+                Available for conversations and enquiries
+              </div>
+            </Reveal>
           </div>
 
           {/* Contact Form */}
-          <div className="rounded-[1.7rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-xl sm:p-9">
-            <div className="mb-8">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                <Send size={22} />
+          <Reveal delay={0.1} y={32}>
+            <div className="rounded-[1.7rem] border border-[var(--border)] bg-[var(--surface)] p-6 shadow-xl sm:p-9">
+              <div className="mb-8">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                  <Send size={22} />
+                </div>
+
+                <h2 className="mt-5 text-2xl font-black">Send me a message</h2>
+
+                <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
+                  Fill in the details below and I&apos;ll be looking forward to
+                  hearing from you.
+                </p>
               </div>
 
-              <h2 className="mt-5 text-2xl font-black">
-                Send me a message
-              </h2>
+              <form onSubmit={handleSubmit} className="relative space-y-6">
+                <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="name" className="mb-2 block text-sm font-semibold">
+                      Your Name *
+                    </label>
 
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">
-                Fill in the details below and I'll be looking forward
-                to hearing from you.
-              </p>
-            </div>
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      required
+                      maxLength={100}
+                      autoComplete="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      placeholder="Enter your name"
+                      className={inputClass}
+                    />
+                  </div>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid gap-5 sm:grid-cols-2">
+                  <div>
+                    <label htmlFor="email" className="mb-2 block text-sm font-semibold">
+                      Email Address *
+                    </label>
+
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      maxLength={254}
+                      autoComplete="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      placeholder="you@example.com"
+                      className={inputClass}
+                    />
+                  </div>
+                </div>
+
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-semibold"
-                  >
-                    Your Name *
+                  <label htmlFor="subject" className="mb-2 block text-sm font-semibold">
+                    Subject *
                   </label>
 
                   <input
-                    id="name"
-                    name="name"
+                    id="subject"
+                    name="subject"
                     type="text"
                     required
-                    maxLength={100}
-                    autoComplete="name"
-                    value={formData.name}
+                    maxLength={150}
+                    value={formData.subject}
                     onChange={handleChange}
-                    placeholder="Enter your name"
-                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] px-4 py-3.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                    placeholder="What would you like to discuss?"
+                    className={inputClass}
                   />
                 </div>
 
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-semibold"
-                  >
-                    Email Address *
-                  </label>
+                  <div className="mb-2 flex items-center justify-between">
+                    <label htmlFor="message" className="block text-sm font-semibold">
+                      Your Message *
+                    </label>
 
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
+                    <span className="text-xs text-[var(--muted)]">
+                      {formData.message.length}/5000
+                    </span>
+                  </div>
+
+                  <textarea
+                    id="message"
+                    name="message"
                     required
-                    maxLength={254}
-                    autoComplete="email"
-                    value={formData.email}
+                    rows={6}
+                    minLength={10}
+                    maxLength={5000}
+                    value={formData.message}
                     onChange={handleChange}
-                    placeholder="you@example.com"
-                    className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] px-4 py-3.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
+                    placeholder="Tell me a little about your project, idea or enquiry..."
+                    className={`${inputClass} resize-y`}
                   />
                 </div>
-              </div>
 
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="mb-2 block text-sm font-semibold"
-                >
-                  Subject *
-                </label>
-
-                <input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  required
-                  maxLength={150}
-                  value={formData.subject}
-                  onChange={handleChange}
-                  placeholder="What would you like to discuss?"
-                  className="w-full rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] px-4 py-3.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-sm font-semibold"
-                >
-                  Your Message *
-                </label>
-
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  minLength={10}
-                  maxLength={5000}
-                  value={formData.message}
-                  onChange={handleChange}
-                  placeholder="Tell me a little about your project, idea or enquiry..."
-                  className="w-full resize-y rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] px-4 py-3.5 text-sm outline-none transition placeholder:text-[var(--muted)] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/10"
-                />
-              </div>
-
-              {/* Hidden bot protection field */}
-              <div
-                aria-hidden="true"
-                className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
-              >
-                <label htmlFor="website">Leave this field empty</label>
-                <input
-                  id="website"
-                  name="website"
-                  type="text"
-                  tabIndex={-1}
-                  autoComplete="off"
-                  value=""
-                  readOnly
-                />
-              </div>
-
-              {notice && (
+                {/* Hidden bot protection field */}
                 <div
-                  role="status"
-                  aria-live="polite"
-                  className={`flex items-start gap-3 rounded-xl border p-4 text-sm leading-6 ${
-                    noticeType === "success"
-                      ? "border-green-500/20 bg-green-500/10 text-green-700 dark:text-green-300"
-                      : "border-red-500/20 bg-red-500/10 text-red-700 dark:text-red-300"
-                  }`}
+                  aria-hidden="true"
+                  className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
                 >
-                  {noticeType === "success" ? (
-                    <CheckCircle2
-                      size={19}
-                      className="mt-0.5 shrink-0"
-                    />
-                  ) : (
-                    <AlertCircle
-                      size={19}
-                      className="mt-0.5 shrink-0"
-                    />
-                  )}
-
-                  <p>{notice}</p>
+                  <label htmlFor="website">Leave this field empty</label>
+                  <input
+                    id="website"
+                    name="website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={website}
+                    onChange={(event) => setWebsite(event.target.value)}
+                  />
                 </div>
-              )}
 
-              <button
-                type="submit"
-                disabled={isSending}
-                className="inline-flex w-full items-center justify-center gap-3 rounded-full bg-blue-600 px-7 py-4 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                {isSending ? (
-                  <>
-                    Sending Message...
-                    <LoaderCircle size={18} className="animate-spin" />
-                  </>
-                ) : (
-                  <>
-                    Send Message
-                    <ArrowRight size={18} />
-                  </>
-                )}
-              </button>
+                <AnimatePresence mode="wait">
+                  {notice && (
+                    <motion.div
+                      key={noticeType + notice}
+                      role="status"
+                      aria-live="polite"
+                      initial={{ opacity: 0, y: -8, scale: 0.98 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className={`flex items-start gap-3 rounded-xl border p-4 text-sm leading-6 ${
+                        noticeType === "success"
+                          ? "border-green-500/20 bg-green-500/10 text-green-700 dark:text-green-300"
+                          : "border-red-500/20 bg-red-500/10 text-red-700 dark:text-red-300"
+                      }`}
+                    >
+                      {noticeType === "success" ? (
+                        <CheckCircle2 size={19} className="mt-0.5 shrink-0" />
+                      ) : (
+                        <AlertCircle size={19} className="mt-0.5 shrink-0" />
+                      )}
 
-              <p className="text-center text-xs leading-6 text-[var(--muted)]">
-                Your message will be sent securely. I'll get back
-                to you as soon as possible.
-              </p>
-            </form>
-          </div>
+                      <p>{notice}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <motion.button
+                  type="submit"
+                  disabled={isSending}
+                  whileTap={{ scale: 0.98 }}
+                  className="group inline-flex w-full items-center justify-center gap-3 rounded-full bg-blue-600 px-7 py-4 text-sm font-bold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  {isSending ? (
+                    <>
+                      Sending Message...
+                      <LoaderCircle size={18} className="animate-spin" />
+                    </>
+                  ) : (
+                    <>
+                      Send Message
+                      <ArrowRight
+                        size={18}
+                        className="transition group-hover:translate-x-1"
+                      />
+                    </>
+                  )}
+                </motion.button>
+
+                <p className="text-center text-xs leading-6 text-[var(--muted)]">
+                  Your message will be sent securely. I&apos;ll get back to you
+                  as soon as possible.
+                </p>
+              </form>
+            </div>
+          </Reveal>
         </div>
       </section>
 
       {/* Final CTA */}
       <section className="border-t border-[var(--border)] bg-[var(--surface-secondary)] py-16">
         <div className="container-width">
-          <div className="flex flex-col items-center justify-between gap-7 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:flex-row sm:p-10">
-            <div className="flex items-start gap-4">
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
-                <Sparkles size={23} />
+          <Reveal>
+            <div className="flex flex-col items-center justify-between gap-7 rounded-3xl border border-[var(--border)] bg-[var(--surface)] p-7 sm:flex-row sm:p-10">
+              <div className="flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400">
+                  <Sparkles size={23} />
+                </div>
+
+                <div>
+                  <h2 className="text-xl font-black">
+                    Want to see what I&apos;ve built?
+                  </h2>
+
+                  <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
+                    Explore some of my recent projects and development work.
+                  </p>
+                </div>
               </div>
 
-              <div>
-                <h2 className="text-xl font-black">
-                  Want to see what I've built?
-                </h2>
-
-                <p className="mt-2 text-sm leading-7 text-[var(--muted)]">
-                  Explore some of my recent projects and development work.
-                </p>
-              </div>
+              <Link
+                href="/projects"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[var(--border)] px-6 py-3.5 text-sm font-bold transition hover:-translate-y-1 hover:border-blue-500 hover:text-blue-600"
+              >
+                Explore Projects
+                <ArrowUpRight size={17} />
+              </Link>
             </div>
-
-            <Link
-              href="/projects"
-              className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[var(--border)] px-6 py-3.5 text-sm font-bold transition hover:border-blue-500 hover:text-blue-600"
-            >
-              Explore Projects
-              <ArrowUpRight size={17} />
-            </Link>
-          </div>
+          </Reveal>
         </div>
       </section>
     </div>

@@ -1,4 +1,3 @@
-
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
@@ -37,11 +36,19 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* CHANGED: was Arial. --font-body is set in layout.js via next/font */
+  font-family: var(--font-body), system-ui, -apple-system, "Segoe UI", sans-serif;
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
   overflow-x: hidden;
+}
+
+/* NEW: display typeface for headings */
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
 }
 
 button,
@@ -62,6 +69,13 @@ a {
   color: white;
 }
 
+/* NEW: visible keyboard focus */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
 .container-width {
   width: min(100% - 40px, 1200px);
   margin-inline: auto;
@@ -80,29 +94,20 @@ a {
 
 .grid-pattern {
   background-image:
-    linear-gradient(
-      to right,
-      var(--border) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      to bottom,
-      var(--border) 1px,
-      transparent 1px
-    );
+    linear-gradient(to right, var(--border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border) 1px, transparent 1px);
   background-size: 45px 45px;
   mask-image: linear-gradient(to bottom, black, transparent);
 }
 
+/* CHANGED: removed "border: 1px solid var(--border)".
+   This unlayered rule overrides Tailwind's border utilities, so the
+   Navbar's border-transparent-at-top / border-on-scroll effect could not work.
+   The Navbar now controls its own bottom border. */
 .glass {
-  background: color-mix(
-    in srgb,
-    var(--surface) 80%,
-    transparent
-  );
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border);
 }
 
 ::placeholder {
